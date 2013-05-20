@@ -8,9 +8,9 @@ public class Main {
         clients.tryToConnect(host, port);
 
         if (keepThisProcessForAWhile(clientCount, clients)) {
-            int timeWillBeSpent = clientCount * connectIntervalInSeconds; // 240 will spend 1 hour(240 * 15=3600s)
-            Utils.log("Will sleep for %d seconds before close all sockets", timeWillBeSpent);
-            Utils.sleepInSeconds(timeWillBeSpent);
+            int sleepTime = clientCount * connectIntervalInSeconds; // 240 will spend 1 hour(240 * 15=3600s)
+            Utils.log("Will sleep for %d seconds before close all sockets", sleepTime);
+            Utils.sleepInSeconds(sleepTime);
         }
         clients.closeAll();
     }
