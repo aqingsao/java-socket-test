@@ -2,18 +2,13 @@ package com.thoughtworks;
 
 public class Main {
 
-    private void run() {
-        String host = "10.18.2.163";
-        int port = 7222;
+    private void run(String host, int port, int clientCount, int connectIntervalInSeconds) {
 
-        int count = 240;
-        int intervalInSeconds = 15;
-
-        SocketClients clients = new SocketClients(count, intervalInSeconds);
+        SocketClients clients = new SocketClients(clientCount, connectIntervalInSeconds);
         clients.tryToConnect(host, port);
 
-        if (keepThisProcessForAWhile(count, clients)) {
-            int timeWillBeSpent = count * 15; // 240 will spend 1 hour(240 * 15=3600s)
+        if (keepThisProcessForAWhile(clientCount, clients)) {
+            int timeWillBeSpent = clientCount * connectIntervalInSeconds; // 240 will spend 1 hour(240 * 15=3600s)
             Utils.log("Will sleep for %d seconds before close all sockets", timeWillBeSpent);
             Utils.sleepInSeconds(timeWillBeSpent);
         }
@@ -25,7 +20,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main().run();
+        String host = "10.18.2.163";
+        int port = 7222;
+
+        int clientCount = 240;
+        int connectIntervalInSeconds = 15;
+
+        new Main().run(host, port, clientCount, connectIntervalInSeconds);
     }
 
 }
