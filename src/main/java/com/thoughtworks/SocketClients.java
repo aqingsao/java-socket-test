@@ -15,22 +15,21 @@ public class SocketClients {
 
     public void tryToConnect(String host, int port) {
         for (int i = 0; i < expectedCount; i++) {
-            if (!isErrorOccurred()) {
-                Utils.log("continue to open socket %d", i);
-                SocketClient client = new SocketClient(i).connect(host, port);
-                clients.add(client);
-                Utils.sleepInSeconds(intervalInSeconds);
-            } else {
-                Utils.log("Will stop connect new client as previous one failed");
-                Utils.log("Connected sockets count is %s", clients.size());
+            if (isErrorOccurred()) {
                 break;
             }
+
+            Utils.log("Start to open socket %d", i);
+            SocketClient client = new SocketClient(i).connect(host, port);
+            clients.add(client);
+            Utils.sleepInSeconds(intervalInSeconds);
         }
     }
 
-    private boolean isErrorOccurred() {
+    public boolean isErrorOccurred() {
         for (SocketClient client : clients) {
             if (client.isErrorOccurred()) {
+                Utils.log("Error occurred when connecting socket %d", client.getIndex());
                 return true;
             }
         }
@@ -41,9 +40,5 @@ public class SocketClients {
         for (SocketClient client : clients) {
             client.closeQuietly();
         }
-    }
-
-    public int size() {
-        return clients.size();
     }
 }

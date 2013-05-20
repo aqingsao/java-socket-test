@@ -22,7 +22,6 @@ public class SocketClient {
             public void run() {
                 openSocket(host, port);
             }
-
         };
         runnable.start();
         return this;
@@ -33,9 +32,9 @@ public class SocketClient {
             socket = new Socket(host, port);
 
             in = socket.getInputStream();
-            Utils.log("Connect socket %d successfully.", index);
+            Utils.log("Open socket %d successfully.", index);
         } catch (IOException e) {
-            Utils.log("failed to connect socket %d to server: %s", index, e.getMessage(), e);
+            Utils.log("failed to open socket %d: %s", index, e.getMessage(), e);
             errorOccurred = true;
         }
     }
@@ -47,5 +46,9 @@ public class SocketClient {
 
     public boolean isErrorOccurred() {
         return errorOccurred;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

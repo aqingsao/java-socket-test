@@ -1,23 +1,27 @@
 package com.thoughtworks;
 
 public class Main {
-    public static final int SECONDS = 15;
-    private static boolean continueToOpenSocket = true;
 
     private void run() {
-        int count = 240;
         String host = "10.18.2.163";
         int port = 7222;
-        SocketClients clients = new SocketClients(count, seconds);
+
+        int count = 240;
+        int intervalInSeconds = 15;
+
+        SocketClients clients = new SocketClients(count, intervalInSeconds);
         clients.tryToConnect(host, port);
 
-        int sleepBeforeClose = 1;
-        if (continueToOpenSocket || clients.size() > 10) {
-            sleepBeforeClose = 60 * 60;
+        if (keepThisProcessForAWhile(count, clients)) {
+            int timeWillBeSpent = count * 15; // 240 will spend 1 hour(240 * 15=3600s)
+            Utils.log("Will sleep for %d seconds before close all sockets", timeWillBeSpent);
+            Utils.sleepInSeconds(timeWillBeSpent);
         }
-        Utils.log("Will sleep for %d seconds before close all sockets", sleepBeforeClose);
-        Utils.sleepInSeconds(sleepBeforeClose);
         clients.closeAll();
+    }
+
+    private boolean keepThisProcessForAWhile(int count, SocketClients clients) {
+        return !clients.isErrorOccurred() || count > 10; // We will
     }
 
     public static void main(String[] args) {
