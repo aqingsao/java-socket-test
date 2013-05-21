@@ -41,4 +41,8 @@ public class SocketClients {
             client.closeQuietly();
         }
     }
+
+    public int size() {
+        return this.clients.size();
+    }
 }
