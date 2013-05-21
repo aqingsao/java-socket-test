@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'maven'
 
 repositories {
     mavenLocal();
@@ -27,4 +28,15 @@ dependencies {
 
     def junitVersion = '4.10'
     testCompile "junit:junit:$junitVersion"
+}
+
+task deployJar(type: Jar, dependsOn: 'jar'){
+    from { project.configurations.runtime.collect { project.zipTree it } } {
+        exclude 'META-INF/MANIFEST.MF', '**/*.RSA', '**/*.SF', '**/*.DSA'
+    }
+    from { project.configurations.default.allArtifacts.files.collect { project.zipTree it } }
+
+    manifest {
+        attributes 'Main-Class': 'com.thoughtworks.socket.Main'
+    }
 }
