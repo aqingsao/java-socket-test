@@ -9,7 +9,7 @@ repositories {
     mavenRepo url: "http://download.java.net/maven/2", artifactUrls: ["http://maven.springframework.org/milestone", "https://repository.jboss.org/nexus/content/groups/public/", "http://mvnrepository.com/artifact"]
 }
 
-sourceCompatibility = '1.7'
+sourceCompatibility = '1.6'
 
 idea {
    module {
@@ -22,20 +22,7 @@ idea {
     }
 }
 
-dependencies {
-    def guavaVersion = '13.0.1'
-    compile "com.google.guava:guava:$guavaVersion"
-
-    def junitVersion = '4.10'
-    testCompile "junit:junit:$junitVersion"
-}
-
-task deployJar(type: Jar, dependsOn: 'jar'){
-    from { project.configurations.runtime.collect { project.zipTree it } } {
-        exclude 'META-INF/MANIFEST.MF', '**/*.RSA', '**/*.SF', '**/*.DSA'
-    }
-    from { project.configurations.default.allArtifacts.files.collect { project.zipTree it } }
-
+jar{
     manifest {
         attributes 'Main-Class': 'com.thoughtworks.socket.Main'
     }

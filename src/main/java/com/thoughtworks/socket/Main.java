@@ -7,14 +7,13 @@ public class Main {
         SocketClients clients = new SocketClients(clientCount, connectIntervalInSeconds);
         clients.tryToConnect(host, port);
 
+        Utils.log("");
         if (keepThisProcessForAWhile(clients)) {
             int sleepTime = 24 * 60 * 60; // will sleep 5 hours
             Utils.log("Will sleep for %d seconds before close all sockets", sleepTime);
             Utils.sleepInSeconds(sleepTime);
         }
-        else{
-            Utils.log("Error occurred, or connected socket clients count is less than 10, we will close this process.");
-        }
+
         clients.closeAll();
     }
 
@@ -34,7 +33,7 @@ public class Main {
         int port = 7222;
 
         int clientCount = 1000;
-        int connectIntervalInSeconds = 15;
+        int connectIntervalInSeconds = 10;
 
         new Main().run(host, port, clientCount, connectIntervalInSeconds);
     }

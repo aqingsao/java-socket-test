@@ -16,26 +16,16 @@ public class SocketClient {
         this.index = index;
     }
 
-    public SocketClient connect(final String host, final int port) {
-        runnable = new Thread() {
-            @Override
-            public void run() {
-                openSocket(host, port);
-            }
-        };
-        runnable.start();
-        return this;
-    }
-
-    private void openSocket(String host, int port) {
+    public boolean connect(final String host, final int port) {
         try {
             socket = new Socket(host, port);
 
             in = socket.getInputStream();
             Utils.log("Open socket %d successfully.", index);
+            return true;
         } catch (IOException e) {
             Utils.log("failed to open socket %d: %s", index, e.getMessage(), e);
-            errorOccurred = true;
+            return false;
         }
     }
 
