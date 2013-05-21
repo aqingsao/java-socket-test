@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.socket;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.socket;
 
 public class Main {
 

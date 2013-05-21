@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.socket;
 
 import java.io.IOException;
 import java.io.InputStream;

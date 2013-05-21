@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.socket;
 
 import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 import java.io.IOException;
