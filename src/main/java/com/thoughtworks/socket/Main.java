@@ -8,7 +8,7 @@ public class Main {
         clients.tryToConnect(host, port);
 
         if (keepThisProcessForAWhile(clients)) {
-            int sleepTime = 5 * 60 * 60; // will sleep 5 hours
+            int sleepTime = 24 * 60 * 60; // will sleep 5 hours
             Utils.log("Will sleep for %d seconds before close all sockets", sleepTime);
             Utils.sleepInSeconds(sleepTime);
         }
@@ -33,7 +33,7 @@ public class Main {
         String host = "10.18.2.163";
         int port = 7222;
 
-        int clientCount = 120;
+        int clientCount = 1000;
         int connectIntervalInSeconds = 15;
 
         new Main().run(host, port, clientCount, connectIntervalInSeconds);
