@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp spec="1.0+" codebase="http://localhost:8080/sockets/">
+    <information>
+        <title>aqingsao</title>
+        <vendor>ThoughtWorks</vendor>
+        <homepage href="http://xiaoqing.me/"/>
+        <description>Socket test client</description>
+        <description kind="short">Socket test</description>
+    </information>
+    <security>
+        <all-permissions/>
+    </security>
+    <update check="always"/>
+    <resources>
+        <j2se version="1.7+"/>
+        <jar href="./libs/java-socket-test.jar"/>
+    </resources>
+    <application-desc main-class="com.thoughtworks.socket.Main"></application-desc>
+</jnlp>

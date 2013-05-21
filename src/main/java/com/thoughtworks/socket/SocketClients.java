@@ -27,7 +27,8 @@ public class SocketClients {
                 lastIntervalInSeconds = intervalInSeconds;
             }
             else{
-                lastIntervalInSeconds = lastIntervalInSeconds + 10;
+                lastIntervalInSeconds = lastIntervalInSeconds >= 60 ? 24 * 60 * 60 : lastIntervalInSeconds + 10;
+
             }
             Utils.log("Will sleep %d seconds before open next socket", lastIntervalInSeconds);
             Utils.sleepInSeconds(lastIntervalInSeconds);
