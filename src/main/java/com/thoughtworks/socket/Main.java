@@ -18,7 +18,7 @@ public class Main {
     }
 
     private boolean keepThisProcessForAWhile(SocketClients clients) {
-        return !clients.isErrorOccurred() || clients.size() >= 10; // We will
+        return clients.size() >= 10; // We will
     }
 
     public static void main(String[] args) {

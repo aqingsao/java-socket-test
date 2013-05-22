@@ -7,10 +7,7 @@ import java.net.Socket;
 public class SocketClient {
     private Socket socket;
     private InputStream in;
-    private Thread runnable;
     private int index;
-
-    private boolean errorOccurred = false;
 
     public SocketClient(int index) {
         this.index = index;
@@ -34,11 +31,4 @@ public class SocketClient {
         Utils.closeQuietly(in);
     }
 
-    public boolean isErrorOccurred() {
-        return errorOccurred;
-    }
-
-    public int getIndex() {
-        return index;
-    }
 }

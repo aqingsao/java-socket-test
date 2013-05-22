@@ -9,21 +9,24 @@ public class SocketClients {
     private int intervalInSeconds;
     private int lastIntervalInSeconds;
 
+    private int successCount = 0;
+
     public SocketClients(int expectedCount, int intervalInSeconds) {
         this.expectedCount = expectedCount;
         this.intervalInSeconds = intervalInSeconds;
     }
 
     public void tryToConnect(String host, int port) {
-        for (int i = 0; i < expectedCount; i++) {
-            if (isErrorOccurred()) {
-                break;
-            }
+        reportStatus();
 
+        for (int i = 0; i < expectedCount; i++) {
             Utils.log("Start to open socket %d", i);
             SocketClient client = new SocketClient(i);
             if (client.connect(host, port)) {
                 clients.add(client);
+                if(++successCount % 50 == 0){
+                    reportStatus();
+                }
                 lastIntervalInSeconds = intervalInSeconds;
             }
             else{
@@ -35,14 +38,12 @@ public class SocketClients {
         }
     }
 
-    public boolean isErrorOccurred() {
-        for (SocketClient client : clients) {
-            if (client.isErrorOccurred()) {
-                Utils.log("Error occurred when connecting socket %d", client.getIndex());
-                return true;
-            }
-        }
-        return false;
+    private void reportStatus() {
+//        WebResource webResource = getClient().resource(uri(path));
+//
+//        return webResource.type(MediaType.APPLICATION_JSON_TYPE).accept(MediaType.APPLICATION_JSON_TYPE).get(ClientResponse.class);
+
+
     }
 
     public void closeAll() {

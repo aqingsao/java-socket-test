@@ -26,8 +26,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 public class AssetServlet extends HttpServlet {
     private String resourcePath = ".";
-    private Map<String, String> mimeExtensions = new HashMap();
-    public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
 
     public AssetServlet() {
     }
@@ -87,7 +85,6 @@ public class AssetServlet extends HttpServlet {
     }
 
     public AssetServlet setMimeExtensions(Map<String, String> mimeExtensions) {
-        this.mimeExtensions = mimeExtensions;
         return this;
     }
 }
