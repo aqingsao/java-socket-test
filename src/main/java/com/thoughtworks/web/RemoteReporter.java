@@ -8,7 +8,7 @@ import com.thoughtworks.socket.Utils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Reporter implements IReporter {
+public class RemoteReporter extends IReporter {
     private String ip;
     private Client client;
 

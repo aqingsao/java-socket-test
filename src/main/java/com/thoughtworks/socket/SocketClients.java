@@ -1,7 +1,5 @@
 package com.thoughtworks.socket;
 
-import com.thoughtworks.web.Reporter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,38 +7,37 @@ public class SocketClients {
     private final IReporter reporter;
     private int expectedCount;
     private List<SocketClient> clients = new ArrayList<SocketClient>();
-    private int intervalInSeconds;
-    private int lastIntervalInSeconds;
+    private int retryCount = 0;
 
     private int successCount = 0;
 
-    public SocketClients(int expectedCount, int intervalInSeconds, IReporter reporter) {
+    public SocketClients(int expectedCount, IReporter reporter) {
         this.expectedCount = expectedCount;
-        this.intervalInSeconds = intervalInSeconds;
         this.reporter = reporter;
     }
 
     public void tryToConnect(String host, int port) {
         reporter.reportStarted();
 
-        for (int i = 0; i < expectedCount; i++) {
-            Utils.log("Start to open socket %d", i);
-            SocketClient client = new SocketClient(i);
+        while (successCount < expectedCount) {
+            Utils.log("Start to open socket %d", successCount);
+            SocketClient client = new SocketClient(successCount);
             if (client.connect(host, port)) {
                 clients.add(client);
                 if (++successCount % 50 == 0) {
                     reporter.reportStatus(successCount);
                 }
-                lastIntervalInSeconds = intervalInSeconds;
-            } else if (lastIntervalInSeconds >= 60) {
-                reporter.reportEnded(successCount);
-                lastIntervalInSeconds = lastIntervalInSeconds + 10;
+                retryCount = 0;
             } else {
-                lastIntervalInSeconds = 24 * 60 * 60;
+                Utils.log("Connection failed, will retry for %d times after %d seconds", ++retryCount, 15);
+                Utils.sleepInSeconds(15);
             }
-            Utils.log("Will sleep %d seconds before open next socket", lastIntervalInSeconds);
-            Utils.sleepInSeconds(lastIntervalInSeconds);
+            if(retryCount > 10){
+                Utils.log("\nWarning: \nStill failed after retrying %d times, will not retry again", retryCount);
+                break;
+            }
         }
+        Utils.sleepInSeconds(24 * 60 * 60);
     }
 
     public void closeAll() {
