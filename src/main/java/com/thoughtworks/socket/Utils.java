@@ -9,12 +9,11 @@ import java.net.Socket;
 
 public class Utils {
 
-    public static void closeQuietly(Socket socket) {
+    public static void closeQuietly    (Socket socket) {
         if (socket != null) {
             try {
                 socket.close();
             } catch (IOException e) {
-                log(e.getMessage());
             }
         }
     }
@@ -33,7 +32,6 @@ public class Utils {
             try {
                 in.close();
             } catch (IOException e) {
-                log(e.getMessage());
             }
         }
     }
@@ -43,7 +41,6 @@ public class Utils {
             try {
                 out.close();
             } catch (IOException e) {
-                log(e.getMessage());
             }
         }
     }

@@ -1,12 +1,12 @@
 package com.thoughtworks.socket;
 
-import com.sun.jersey.api.client.*;
+import com.thoughtworks.web.Reporter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SocketClients {
-    private final Reporter reporter;
+    private final IReporter reporter;
     private int expectedCount;
     private List<SocketClient> clients = new ArrayList<SocketClient>();
     private int intervalInSeconds;
@@ -14,10 +14,10 @@ public class SocketClients {
 
     private int successCount = 0;
 
-    public SocketClients(int expectedCount, int intervalInSeconds) {
+    public SocketClients(int expectedCount, int intervalInSeconds, IReporter reporter) {
         this.expectedCount = expectedCount;
         this.intervalInSeconds = intervalInSeconds;
-        this.reporter = new Reporter();
+        this.reporter = reporter;
     }
 
     public void tryToConnect(String host, int port) {

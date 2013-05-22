@@ -4,7 +4,7 @@ public class Main {
 
     private void run(String host, int port, int clientCount, int connectIntervalInSeconds) {
 
-        SocketClients clients = new SocketClients(clientCount, connectIntervalInSeconds);
+        SocketClients clients = new SocketClients(clientCount, connectIntervalInSeconds, IReporter.DUMMY_REPORTER);
         clients.tryToConnect(host, port);
 
         Utils.log("");
