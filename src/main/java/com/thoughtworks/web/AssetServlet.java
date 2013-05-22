@@ -54,7 +54,7 @@ public class AssetServlet extends HttpServlet {
                 Utils.closeQuietly(outputStream);
             }
         } catch (RuntimeException e) {
-            Utils.log(e.getMessage(), e);
+            Utils.log("%s, %s", e.getMessage(), e);
             response.sendError(SC_NOT_FOUND);
         }
     }
