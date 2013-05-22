@@ -1,6 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'war'
+apply plugin: 'jetty'
 
 repositories {
     mavenLocal();
@@ -11,9 +13,19 @@ repositories {
 
 sourceCompatibility = '1.6'
 
+dependencies {
+    def guavaVersion = '13.0.1'
+    compile "com.google.guava:guava:$guavaVersion"
+    compile 'javax.servlet:javax.servlet-api:3.0.1'
+    def jettyVersion = '9.0.0.M3'
+    compile "org.eclipse.jetty:jetty-servlet:$jettyVersion"
+}
+
+//        GRADLE_OPTS='-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005'
+
 idea {
-   module {
-       inheritOutputDirs = false
+    module {
+        inheritOutputDirs = false
         print project.name + " output dir: " + sourceSets.main.output.resourcesDir
         outputDir = file("out")
         testOutputDir = file("out")
@@ -21,9 +33,21 @@ idea {
         excludeDirs += file("out")
     }
 }
+sourceSets {
+    main {
+        resources {
+            srcDirs += 'src/main/webapp'
+        }
+    }
+}
 
-jar{
+jar {
     manifest {
         attributes 'Main-Class': 'com.thoughtworks.socket.Main'
     }
 }
+
+war {
+    baseName = "sf"
+}
+httpPort = 5120
