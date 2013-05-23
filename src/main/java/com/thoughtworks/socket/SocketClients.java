@@ -5,35 +5,35 @@ import java.util.List;
 
 public class SocketClients {
     private final IReporter reporter;
-    private int expectedCount;
+    private int connectionLimit;
     private List<SocketClient> clients = new ArrayList<SocketClient>();
-    private int retryCount = 0;
+    private int retryTimes = 0;
 
-    private int successCount = 0;
+    private int connectedCount = 0;
 
-    public SocketClients(int expectedCount, IReporter reporter) {
-        this.expectedCount = expectedCount;
+    public SocketClients(int connectionLimit, IReporter reporter) {
+        this.connectionLimit = connectionLimit;
         this.reporter = reporter;
     }
 
     public void tryToConnect(String host, int port) {
         reporter.reportStarted();
 
-        while (successCount < expectedCount) {
-            Utils.log("Start to open socket %d", successCount);
-            SocketClient client = new SocketClient(successCount);
+        while (connectedCount < connectionLimit) {
+            Utils.log("Start to open socket %d", connectedCount);
+            SocketClient client = new SocketClient(connectedCount);
             if (client.connect(host, port)) {
                 clients.add(client);
-                if (++successCount % 50 == 0) {
-                    reporter.reportStatus(successCount);
+                if (++connectedCount % 50 == 0) {
+                    reporter.reportStatus(connectedCount);
                 }
-                retryCount = 0;
+                retryTimes = 0;
             } else {
-                Utils.log("Connection failed, will retry for %d times after %d seconds", ++retryCount, 15);
+                Utils.log("Connection failed, will retry for %d times after %d seconds", ++retryTimes, 15);
                 Utils.sleepInSeconds(15);
             }
-            if(retryCount > 10){
-                Utils.log("\nWarning: \nStill failed after retrying %d times, will not retry again", retryCount);
+            if(retryTimes > 10){
+                Utils.log("\nWarning: \nStill failed after retrying %d times, will not retry again", retryTimes);
                 break;
             }
         }
