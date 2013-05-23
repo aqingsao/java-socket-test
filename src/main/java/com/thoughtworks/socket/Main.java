@@ -2,7 +2,7 @@ package com.thoughtworks.socket;
 
 public class Main {
 
-    private void run(String host, int port, int clientCount, int connectIntervalInSeconds) {
+    private void run(String host, int port, int clientCount) {
 
         SocketClients clients = new SocketClients(clientCount, IReporter.DUMMY_REPORTER);
         clients.tryToConnect(host, port);
@@ -22,20 +22,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        if(args.length < 3){
-            Utils.log("Usage: java -jar java-socket-test.jar host:port clientCount connectIntervalInSeconds");
-            Utils.log("Params: clientCount is the total count of socket clients");
-            Utils.log("Params: connectIntervalInSeconds defines the interval before opening a new socket client");
-            Utils.log("Example: java -jar java-socket-test.jar 10.18.2.163:7222 120 15\n");
-        }
-
         String host = "10.18.2.163";
         int port = 7222;
+        int maxCount = 1000;
+        if(args.length > 0){
+//            Utils.log("Usage: java -jar java-socket-test.jar host port maxCount");
+//            Utils.log("Example: java -jar java-socket-test.jar 10.18.2.163:7222 1000\n");
+            maxCount = Integer.parseInt(args[0]);
+        }
 
-        int clientCount = 1000;
-        int connectIntervalInSeconds = 5;
-
-        new Main().run(host, port, clientCount, connectIntervalInSeconds);
+        new Main().run(host, port, maxCount);
     }
 
 }
